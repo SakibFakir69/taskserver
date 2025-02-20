@@ -6,7 +6,7 @@ const cors = require("cors");
 const Port = process.env.PORT || 5000;
 const app = express();
 const http = require("http");
-const {Server } = require("socket.io");
+const { Server } = require("socket.io");
 const { Socket } = require("dgram");
 const io = new Server();
 
@@ -54,17 +54,17 @@ async function run() {
       }
 
     })
-    
 
-  
+
+
 
 
     // get req or find all data 
 
 
     app.get('/tasks', async (req, res) => {
-     
-  
+
+
       try {
         const result = await taskColleection.find().toArray();
         res.send(result);
@@ -76,29 +76,28 @@ async function run() {
 
     // put 
 
-    app.put('/tasks/:id', async (req,res)=>{
+    app.put('/tasks/:id', async (req, res) => {
 
-      try{
+      try {
         const id = req.params.id;
-      const qury = {_id : new ObjectId(id)}
-      const task = req.body;
+        const qury = { _id: new ObjectId(id) }
+        const task = req.body;
 
-      const updateTask = {
+        const updateTask = {
 
-        $set:{
+          $set: {
 
-          Title: task.Title ,
-          Description: task.Description,
-          Category : task.Category
+            Title: task.Title,
+            Description: task.Description,
+            Category: task.Category
 
 
+          }
         }
-      }
-      const result = await taskColleection.updateOne(qury,updateTask);
-      res.send(result);
+        const result = await taskColleection.updateOne(qury, updateTask);
+        res.send(result);
 
-      }catch(error)
-      {
+      } catch (error) {
         console.log(error.message);
       }
 
@@ -106,21 +105,18 @@ async function run() {
 
     // delete
 
-    app.delete('/tasks/:id', async(req,res)=>{
+    app.delete('/tasks/:id', async (req, res) => {
 
-    try{
-      const id = req.params.id;
-      const qury = {_id: new ObjectId(id)};
-      const result = await taskColleection.deleteOne(qury);
-      res.send(result);
-      
-    }catch(error)
-    {
-      console.log(error.message)
-    }
-  })
+      try {
+        const id = req.params.id;
+        const qury = { _id: new ObjectId(id) };
+        const result = await taskColleection.deleteOne(qury);
+        res.send(result);
 
-    
+      } catch (error) {
+        console.log(error.message)
+      }
+    })
 
 
 
@@ -129,7 +125,9 @@ async function run() {
 
 
 
-    io.on("connection",(socket)=>{
+
+
+    io.on("connection", (socket) => {
       console.log("user conected")
 
 
@@ -147,8 +145,8 @@ async function run() {
     })
 
 
-    
-    
+
+
 
 
 
